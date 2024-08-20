@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>去除空格工具</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+        }
+        .output-container {
+            margin-top: 20px;
+        }
+        .output-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+            white-space: pre-wrap;
+            margin-bottom: 10px;
+        }
+        .chunk-label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>去除空格工具</h1>
+    <textarea id="inputText" placeholder="请输入文本..."></textarea>
+    <button onclick="removeSpaces()">去除空格</button>
+    <div id="output" class="output-container"></div>
+
+    <script>
+        function removeSpaces() {
+            const input = document.getElementById('inputText').value;
+            const noSpaces = input.replace(/\s+/g, ''); // 去除所有空格
+            const chunks = noSpaces.match(/.{1,5000}/g); // 每5000字符分成一块
+            
+            // 清空输出区域
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = '';
+
+            if (chunks) {
+                chunks.forEach((chunk, index) => {
+                    const label = document.createElement('div');
+                    label.className = 'chunk-label';
+                    label.innerText = `块 ${index + 1}:`;
+                    outputDiv.appendChild(label);
+                    
+                    const box = document.createElement('div');
+                    box.className = 'output-box';
+                    box.innerText = chunk;
+                    outputDiv.appendChild(box);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
